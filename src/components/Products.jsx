@@ -34,26 +34,26 @@ export const Products = () => {
         }
     };
 
-    return dailyRate ? (
-        <>
-            <input type="text" value={value} onChange={handleChange} />
+    return (
+        <div>
+            <h2>Product search</h2>
+            {dailyRate ? (
+                <>
+                    <input type="text" value={value} onChange={handleChange} />
+                    <br />
 
-            {isLoading && <p>Loading ...</p>}
+                    {isLoading && <p>Loading ...</p>}
 
-            {products &&
-                products.map((product) => (
-                    <button key={product._id} type="button">
-                        {product.title.ua}
-                    </button>
-                ))}
-
-            <br />
-            <br />
-            <hr />
-            <br />
-            <br />
-        </>
-    ) : (
-        <p>Please, count your daily rate first!</p>
+                    {products &&
+                        products.map((product) => (
+                            <button key={product._id} type="button">
+                                {product.title.ua}
+                            </button>
+                        ))}
+                </>
+            ) : (
+                <p>Please, count your daily rate first!</p>
+            )}
+        </div>
     );
 };

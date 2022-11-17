@@ -20,17 +20,18 @@ export default function App() {
 
     return (
         <div className="App">
+            {/* Auth Page */}
             <RegisterForm />
             <LoginForm />
-            {/* Home page */}
+
+            {/* Home Page */}
             {!accessToken && <DailyRate onSubmit={console.log} />}
 
             {accessToken && (
                 <>
-                    <p>User loged in</p>
                     <Products />
 
-                    {/* Calculator */}
+                    {/* Calculator Page */}
                     <DailyRate onSubmit={handleSubmit} />
                 </>
             )}

@@ -21,6 +21,7 @@ export const DailyRate = ({ onSubmit }) => {
 
     return (
         <form onSubmit={handleSubmit}>
+            <h2>Daily Rate</h2>
             <input type="number" name="weight" placeholder="weight" value={values.weight} onChange={handleChange} />
             <input type="number" name="height" placeholder="height" value={values.height} onChange={handleChange} />
             <input type="number" name="age" placeholder="age" value={values.age} onChange={handleChange} />
