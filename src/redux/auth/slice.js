@@ -2,7 +2,8 @@ import { createSlice } from '@reduxjs/toolkit';
 import { persistReducer } from 'redux-persist';
 import storage from 'redux-persist/lib/storage';
 import { Status } from '../../config/status';
-import { loginOperation } from './operations';
+import { userOperation } from '../user/operations';
+import { loginOperation, logoutOperation } from './operations';
 
 const initialState = {
     status: Status.init,
@@ -15,6 +16,9 @@ const authSlice = createSlice({
     name: 'auth',
     initialState: initialState,
     extraReducers: {
+        [logoutOperation.fulfilled]: () => initialState,
+        [userOperation.rejected]: () => initialState,
+
         [loginOperation.pending]: (state) => {
             state.status = Status.loading;
         },
@@ -36,7 +40,7 @@ const authSlice = createSlice({
 });
 
 const persistConfig = {
-    key: 'bootcamp-29',
+    key: 'bootcamp-29-auth',
     version: 1,
     storage,
     blacklist: ['status'],

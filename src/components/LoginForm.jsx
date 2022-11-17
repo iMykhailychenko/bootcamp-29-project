@@ -24,8 +24,9 @@ export const LoginForm = () => {
         <form onSubmit={handleSubmit}>
             <h2>Login</h2>
             <input type="text" name="email" placeholder="email" value={values.email} onChange={handleChange} />
+            <br />
             <input type="text" name="password" placeholder="password" value={values.password} onChange={handleChange} />
-
+            <br />
             <button type="submit">login</button>
         </form>
     );

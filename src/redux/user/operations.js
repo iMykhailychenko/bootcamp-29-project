@@ -1,8 +1,9 @@
 import { createAsyncThunk } from '@reduxjs/toolkit';
-import { privateApi, setToken } from '../../http/http';
+import { privateApi, publicApi, setToken } from '../../http/http';
 
-export const userOperation = createAsyncThunk('user/curent', async (_, { getState, rejectWithValue }) => {
+export const userOperation = createAsyncThunk('user/curent', async (_, { getState, dispatch, rejectWithValue }) => {
     const accessToken = getState().auth.accessToken;
+    const userData = getState().user.userData;
 
     if (!accessToken) {
         return rejectWithValue();
@@ -11,11 +12,22 @@ export const userOperation = createAsyncThunk('user/curent', async (_, { getStat
     setToken(accessToken);
 
     const { data } = await privateApi.get('/user');
+
+    const isUserDataFilled = userData.weight && userData.height && userData.age && userData.bloodType;
+    if (!userData.dailyRate && isUserDataFilled) {
+        dispatch(userDailyRateOperation(userData));
+    }
+
+    return data;
+});
+
+export const dailyRateOperation = createAsyncThunk('user/daily-rate', async (body) => {
+    const { data } = await publicApi.post('/daily-rate', body);
     return data;
 });
 
 export const userDailyRateOperation = createAsyncThunk(
-    'user/daily-rate',
+    'user/user-daily-rate',
     async (body, { getState, rejectWithValue }) => {
         const userId = getState().user.data?.sid;
 

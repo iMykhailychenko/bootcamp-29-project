@@ -1,13 +1,13 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
+import { useSelector } from 'react-redux';
 
 export const DailyRate = ({ onSubmit }) => {
-    const [values, setValues] = useState({
-        weight: '',
-        height: '',
-        age: '',
-        desiredWeight: '',
-        bloodType: '',
-    });
+    const userData = useSelector((state) => state.user.userData);
+    const [values, setValues] = useState(userData);
+
+    useEffect(() => {
+        setValues(userData);
+    }, [userData]);
 
     const handleChange = (event) => {
         const { name, value } = event.target;
@@ -21,10 +21,12 @@ export const DailyRate = ({ onSubmit }) => {
 
     return (
         <form onSubmit={handleSubmit}>
-            <h2>Daily Rate</h2>
             <input type="number" name="weight" placeholder="weight" value={values.weight} onChange={handleChange} />
+            <br />
             <input type="number" name="height" placeholder="height" value={values.height} onChange={handleChange} />
+            <br />
             <input type="number" name="age" placeholder="age" value={values.age} onChange={handleChange} />
+            <br />
             <input
                 type="number"
                 name="desiredWeight"
@@ -32,6 +34,7 @@ export const DailyRate = ({ onSubmit }) => {
                 value={values.desiredWeight}
                 onChange={handleChange}
             />
+            <br />
             <input
                 type="number"
                 name="bloodType"
@@ -39,6 +42,7 @@ export const DailyRate = ({ onSubmit }) => {
                 value={values.bloodType}
                 onChange={handleChange}
             />
+            <br />
 
             <button type="submit">Submit</button>
         </form>

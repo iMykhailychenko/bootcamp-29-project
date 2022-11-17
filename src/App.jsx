@@ -2,9 +2,11 @@ import { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { DailyRate } from './components/DailyRate';
 import { LoginForm } from './components/LoginForm';
-import { Products } from './components/Products';
+import { DayForm } from './components/DayForm';
 import { RegisterForm } from './components/RegisterForm';
-import { userDailyRateOperation, userOperation } from './redux/user/operations';
+import { UserCard } from './components/UserCard';
+import { dailyRateOperation, userDailyRateOperation, userOperation } from './redux/user/operations';
+import { DayTable } from './components/DayTable';
 
 export default function App() {
     const dispatch = useDispatch();
@@ -12,27 +14,53 @@ export default function App() {
 
     useEffect(() => {
         dispatch(userOperation());
-    }, [dispatch]);
+    }, [dispatch, accessToken]);
 
-    const handleSubmit = (data) => {
-        dispatch(userDailyRateOperation(data));
+    const handleSubmitNotAuth = (data) => {
+        dispatch(dailyRateOperation(data))
+            .unwrap()
+            .then((data) => {
+                // modal window
+                alert(JSON.stringify(data, null, 4));
+            });
+    };
+
+    const handleSubmitAuth = (data) => {
+        dispatch(userDailyRateOperation(data))
+            .unwrap()
+            .then((data) => {
+                // modal window
+                alert(JSON.stringify(data, null, 4));
+            });
     };
 
     return (
         <div className="App">
-            {/* Auth Page */}
-            <RegisterForm />
-            <LoginForm />
+            {!accessToken && (
+                <>
+                    {/* Home Page */}
+                    <h2>Home page</h2>
+                    <DailyRate onSubmit={handleSubmitNotAuth} />
 
-            {/* Home Page */}
-            {!accessToken && <DailyRate onSubmit={console.log} />}
+                    {/* Auth Page */}
+                    <RegisterForm />
+                    <LoginForm />
+                </>
+            )}
 
             {accessToken && (
                 <>
-                    <Products />
+                    <UserCard />
 
                     {/* Calculator Page */}
-                    <DailyRate onSubmit={handleSubmit} />
+                    <h2>Calculator page</h2>
+                    <DailyRate onSubmit={handleSubmitAuth} />
+
+                    {/* Diary Page */}
+                    <h2>Diary Page</h2>
+                    <DayForm />
+
+                    <DayTable />
                 </>
             )}
         </div>
