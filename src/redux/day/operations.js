@@ -16,9 +16,9 @@ export const changeDayOperation = createAsyncThunk('user/change-day', async (dat
 });
 
 export const deleteProductOperation = createAsyncThunk('day/delete-product', async (eatenProductId, { getState }) => {
-    const dayId = getState().day._id;
+    const day = getState().day;
 
-    const { data } = await privateApi.delete('/day', { data: { eatenProductId, dayId } });
+    const { data } = await privateApi.delete('/day', { data: { eatenProductId, dayId: day._id ?? day.id } });
 
     return data;
 });
