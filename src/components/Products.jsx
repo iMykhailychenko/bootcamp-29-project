@@ -1,4 +1,4 @@
-import { useCallback, useState } from 'react';
+import { useMemo, useState } from 'react';
 
 import debounce from 'lodash/debounce';
 import { privateApi } from '../http/http';
@@ -9,20 +9,20 @@ export const Products = () => {
 
     const [isLoading, setIsLoading] = useState(false);
     const [products, setProducts] = useState(null);
-    console.log(products);
 
     const [value, setValue] = useState('');
 
-    const fetchProducts = useCallback(
-        debounce((search) => {
-            setIsLoading(true);
-            privateApi
-                .get('/product', { params: { search } })
-                .then(({ data }) => setProducts(data))
-                .finally(() => {
-                    setIsLoading(false);
-                });
-        }, 500),
+    const fetchProducts = useMemo(
+        () =>
+            debounce((search) => {
+                setIsLoading(true);
+                privateApi
+                    .get('/product', { params: { search } })
+                    .then(({ data }) => setProducts(data))
+                    .finally(() => {
+                        setIsLoading(false);
+                    });
+            }, 500),
         []
     );
 
@@ -46,7 +46,7 @@ export const Products = () => {
 
                     {products &&
                         products.map((product) => (
-                            <button key={product._id} type="button">
+                            <button key={product._id} type="button" style={{ display: 'block' }}>
                                 {product.title.ua}
                             </button>
                         ))}
