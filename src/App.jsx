@@ -15,7 +15,7 @@ export default function App() {
 
     useEffect(() => {
         dispatch(userOperation());
-    }, [dispatch, accessToken]);
+    }, [dispatch]);
 
     const handleSubmitNotAuth = (data) => {
         dispatch(dailyRateOperation(data))
