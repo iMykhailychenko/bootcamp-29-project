@@ -22,7 +22,7 @@ export const RegisterForm = () => {
 
         publicApi
             .post('/auth/register', values)
-            .then(() => dispatch(loginOperation(values)))
+            .then(() => dispatch(loginOperation({ email: values.email, password: values.password })))
             .catch((error) => alert('error'));
     };
 

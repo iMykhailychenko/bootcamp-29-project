@@ -10,6 +10,7 @@ import { DayTable } from './components/DayTable';
 
 export default function App() {
     const dispatch = useDispatch();
+    const sid = useSelector((state) => state.user.data?.sid);
     const accessToken = useSelector((state) => state.auth.accessToken);
 
     useEffect(() => {
@@ -25,8 +26,8 @@ export default function App() {
             });
     };
 
-    const handleSubmitAuth = (data) => {
-        dispatch(userDailyRateOperation(data))
+    const handleSubmitAuth = (userData) => {
+        dispatch(userDailyRateOperation({ userData, sid }))
             .unwrap()
             .then((data) => {
                 // modal window
